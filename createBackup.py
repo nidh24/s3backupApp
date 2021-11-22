@@ -24,10 +24,10 @@ def zipdir(path):
     # ziph is zipfile handle
     zipf = zipfile.ZipFile(Config.DESTINATION_FILENAME + "." + Config.ARCHIVE_TYPE, 'w', zipfile.ZIP_DEFLATED)
     for root, dirs, files in os.walk(path):
-        if not any(string in root for string in Config.IGNORE_DIRS) and not any(string in files for string in Config.IGNORE_FILES):
-            print(root)
+        if not any(string in root for string in Config.IGNORE_DIRS):
             for file in files:
-                zipf.write(os.path.join(root, file))
+                if not any(st in file for st in Config.IGNORE_FILES):
+                    zipf.write(os.path.join(root, file))
     zipf.close()
 
 
